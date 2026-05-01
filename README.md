@@ -4,7 +4,7 @@
 
 ## Setup
 
-Mod Built for Minecraft Fabric 1.21.11
+Version: Minecraft Fabric 1.21.11
 
 Fabirc API is required
 
