@@ -1,0 +1,15 @@
+{
+  "item.voidmod.void_compass" : "Void Compass",
+  "item.voidmod.linked_void_compass" : "Linked Void Compass",
+  "itemgroup.voidmod.void": "Void",
+  "item.voidmod.void_soul" : "Void Soul",
+  "advancements.void_compass.title": "Master of Dimensions",
+  "advancements.void_compass.description": "Craft the Void Compass",
+  "advancements.void_soul.title": "Soul Reaper",
+  "advancements.void_soul.description": "Obtain some Void Soul from an Enderman",
+  "advancements.void.root.title": "The Void...",
+  "advancements.void.root.description": "The Void speaks to me, There must be untapped powers to claim...",
+  "advancement.voidmod.soul_reaper.title" : "Book of Souls",
+  "advancement.voidmod.soul_reaper.description": "Find a Soul Reaper Enchantment in End City Loot, Then Equip it to your Sword and Slay the creatures of the void",
+  "enchantment.voidmod.soul_reaper": "Soul Reaper"
+}

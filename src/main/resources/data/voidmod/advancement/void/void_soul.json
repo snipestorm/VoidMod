@@ -1,0 +1,32 @@
+{
+  "parent": "voidmod:void/soul_reaper",
+  "criteria": {
+    "get_soul": {
+      "conditions": {
+        "items": [
+          {
+            "items": "voidmod:void_soul"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.void_soul.description"
+    },
+    "frame" : "challenge",
+    "hidden": false,
+    "icon": {
+      "count": 1,
+      "id": "voidmod:void_soul"
+    },
+    "title": {
+      "translate": "advancements.void_soul.title"
+
+    }
+  },
+
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "voidmod:void/void_soul",
+  "criteria": {
+    "get_void_compass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "voidmod:void_compass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.void_compass.description"
+    },
+    "frame" : "challenge",
+    "icon": {
+      "count": 1,
+      "id": "voidmod:void_compass"
+    },
+    "title": {
+      "translate": "advancements.void_compass.title"
+
+    }
+  },
+
+  "sends_telemetry_event": true
+}

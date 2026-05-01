@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "minecraft:compass",
+    "E": "minecraft:ender_eye",
+    "S": "voidmod:void_soul"
+    },
+    "pattern": [
+      "ESE",
+      "SCS",
+      "ESE"
+    ],
+    "result": {
+      "count": 1,
+      "id": "voidmod:void_compass"
+    }
+  }
+

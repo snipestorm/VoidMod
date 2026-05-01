@@ -1,0 +1,35 @@
+{
+  "criteria": {
+    "obtain_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ender_eye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "voidmod:gui/advancements/backgrounds/void",
+    "description": {
+      "translate": "advancements.void.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:ender_eye"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.void.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_eye"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

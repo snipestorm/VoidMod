@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "voidmod",
+	"version": "${version}",
+	"name": "VoidMod",
+	"description": "A mod that adds some new Void related content",
+	"authors": [
+		"One Minute Redstone!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/voidmod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.adam.voidmod.VoidMod"
+		],
+		"fabric-datagen": [
+			"net.adam.voidmod.VoidModDataGenerator"
+		],
+		"client": [
+			"net.adam.voidmod.VoidModClient"
+		]
+	},
+	"mixins": [
+		"voidmod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
