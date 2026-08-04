@@ -53,7 +53,7 @@ public class ModLootTableModifiers {
                         .setRolls(ConstantValue.exactly(1))
                         .when(LootItemKilledByPlayerCondition.killedByPlayer())
                         .when(SoulReaperLootCondition.builder().build())// custom condition
-                        .when(LootItemRandomChanceCondition.randomChance(0.01f)) // Drops 1% of the time
+                        .when(LootItemRandomChanceCondition.randomChance(1f)) // Drops 1% of the time
                         .add(LootItem.lootTableItem(ModItems.VOID_SOUL))
                         .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0f)).build());
 
