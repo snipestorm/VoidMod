@@ -3,11 +3,10 @@ package net.adam.voidmod.enchantment;
 import com.mojang.serialization.MapCodec;
 import net.adam.voidmod.VoidMod;
 import net.adam.voidmod.enchantment.custom.SoulReaperEnchantmentEffect;
-import net.minecraft.enchantment.effect.EnchantmentEntityEffect;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 
 
 public class ModEnchantmentEffects {

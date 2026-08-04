@@ -2,13 +2,12 @@ package net.adam.voidmod.item;
 
 import net.adam.voidmod.VoidMod;
 import net.adam.voidmod.item.custom.VoidCompassItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+
 
 import java.util.function.Function;
 

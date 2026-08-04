@@ -2,16 +2,8 @@ package net.adam.voidmod.enchantment;
 
 import net.adam.voidmod.VoidMod;
 import net.adam.voidmod.enchantment.custom.SoulReaperEnchantmentEffect;
-import net.minecraft.component.EnchantmentEffectComponentTypes;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.effect.EnchantmentEffectTarget;
-import net.minecraft.registry.Registerable;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.EnchantmentTags;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.util.Identifier;
+import net.minecraft.world.item.enchantment.Enchantment;
+
 
 public class ModEnchantments {
     public static final RegistryKey<Enchantment> SOUL_REAPER =
