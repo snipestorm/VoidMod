@@ -5,58 +5,59 @@ import net.adam.voidmod.enchantment.ModEnchantmentEffects;
 import net.adam.voidmod.enchantment.ModEnchantments;
 import net.adam.voidmod.item.ModItems;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.condition.EntityPropertiesLootCondition;
-import net.minecraft.loot.condition.KilledByPlayerLootCondition;
-import net.minecraft.loot.condition.MatchToolLootCondition;
-import net.minecraft.loot.condition.RandomChanceLootCondition;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.SetCountLootFunction;
-import net.minecraft.loot.function.SetEnchantmentsLootFunction;
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.item.EnchantmentPredicate;
-import net.minecraft.predicate.item.ItemPredicate;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetEnchantmentsFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 
 public class ModLootTableModifiers {
 
     private static final Identifier ENDERMAN_ID
-            = Identifier.of("minecraft", "entities/enderman");
+            = Identifier.fromNamespaceAndPath("minecraft", "entities/enderman");
+
 
     public static void modifyLootTables() {
-        LootTableEvents.MODIFY.register((key, tableBuilder, source, registry) -> {
+        LootTableEvents.MODIFY.register((key, builder, source, registry) -> {
 
-            if(LootTables.END_CITY_TREASURE_CHEST.equals(key)) {
-                LootPool.Builder poolBuilder = LootPool.builder()
-                        .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(RandomChanceLootCondition.builder(0.2f)) // Drops 20% of the time
-                        .with(ItemEntry.builder(Items.ENCHANTED_BOOK).apply(new SetEnchantmentsLootFunction.Builder().enchantment(registry.getEntryOrThrow(ModEnchantments.SOUL_REAPER),ConstantLootNumberProvider.create(1))))
-                        .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
+            Holder<Enchantment> soulReaper =
+                    registry.lookupOrThrow(Registries.ENCHANTMENT)
+                            .getOrThrow(ModEnchantments.SOUL_REAPER);
 
-                tableBuilder.pool(poolBuilder.build());
+            if (BuiltInLootTables.END_CITY_TREASURE.equals(key)) {
+
+                LootPool.Builder poolBuilder = LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .when(LootItemRandomChanceCondition.randomChance(0.2f))
+                        .add(LootItem.lootTableItem(Items.ENCHANTED_BOOK)
+                                .apply(new SetEnchantmentsFunction.Builder().withEnchantment(soulReaper, ConstantValue.exactly(1))))
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 1.0f)).build());
+
+                builder.pool(poolBuilder.build());
             }
 
-            if (key.getValue().equals(ENDERMAN_ID)) {
+            if (key.identifier().equals(ENDERMAN_ID)) {
 
-                LootPool.Builder poolBuilder = LootPool.builder()
-                        .rolls(ConstantLootNumberProvider.create(1))
-                        .conditionally(KilledByPlayerLootCondition.builder())
-                        .conditionally(SoulReaperLootCondition.builder()) // custom condition
-                        .conditionally(RandomChanceLootCondition.builder(1.0f)) // Drops 1% of the time
-                        .with(ItemEntry.builder(ModItems.VOID_SOUL)
-                                .apply(SetCountLootFunction.builder(
-                                        ConstantLootNumberProvider.create(1))));
+                LootPool.Builder poolBuilder = LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .when(LootItemKilledByPlayerCondition.killedByPlayer())
+                        .when(SoulReaperLootCondition.builder().build())// custom condition
+                        .when(LootItemRandomChanceCondition.randomChance(0.01f)) // Drops 1% of the time
+                        .add(LootItem.lootTableItem(ModItems.VOID_SOUL))
+                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0f)).build());
 
-                tableBuilder.pool(poolBuilder.build());
+                builder.pool(poolBuilder.build());
             }
 
         });

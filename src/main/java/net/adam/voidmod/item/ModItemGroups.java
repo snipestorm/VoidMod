@@ -1,23 +1,24 @@
 package net.adam.voidmod.item;
 
 import net.adam.voidmod.VoidMod;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 public class ModItemGroups {
 
-    public static final ItemGroup VOID = Registry.register(Registries.ITEM_GROUP,
-            Identifier.of(VoidMod.MOD_ID,"void_mod_items"),
-            FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.VOID_COMPASS))
-                    .displayName(Text.translatable("itemgroup.voidmod.void"))
-                    .entries((displayContext, entries) -> {
-                        entries.add(ModItems.VOID_COMPASS);
-                        entries.add(ModItems.VOID_SOUL);
+    public static final CreativeModeTab VOID = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+            Identifier.fromNamespaceAndPath(VoidMod.MOD_ID,"void_mod_items"),
+            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.VOID_COMPASS))
+                    .title(Component.translatable("itemgroup.voidmod.void"))
+                    .displayItems((parameters, output) -> {
+                        output.accept(ModItems.VOID_COMPASS);
+                        output.accept(ModItems.VOID_SOUL);
                     }) .build());
 
     public static void registerItemGroups() {
