@@ -24,6 +24,5 @@ public class VoidMod implements ModInitializer {
 
 
 
-
 	}
 }
