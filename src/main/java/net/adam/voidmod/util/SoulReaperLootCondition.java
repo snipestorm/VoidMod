@@ -1,89 +1,64 @@
 package net.adam.voidmod.util;
 
 import com.mojang.serialization.MapCodec;
-import net.adam.voidmod.VoidMod;
 import net.adam.voidmod.enchantment.ModEnchantments;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.loot.condition.LootConditionType;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.context.ContextKey;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
-public class SoulReaperLootCondition implements LootCondition {
+import java.util.Set;
+
+public class SoulReaperLootCondition implements LootItemCondition {
 
     public static final MapCodec<SoulReaperLootCondition> CODEC =
-            MapCodec.unit(new SoulReaperLootCondition());
+            MapCodec.unit(SoulReaperLootCondition::new);
 
-    public static final LootConditionType TYPE =
-            new LootConditionType(CODEC);
-
-    public static SoulReaperLootCondition builder() {
-        return new SoulReaperLootCondition();
+    public static Builder builder() {
+        return SoulReaperLootCondition::new;
     }
 
     @Override
-    public LootConditionType getType() {
-        return TYPE;
+    public MapCodec<? extends LootItemCondition> codec() {
+        return CODEC;
     }
+
     @Override
     public boolean test(LootContext context) {
 
-        System.out.println("SoulReaperLootCondition triggered");
-
-        var damageSource = context.get(LootContextParameters.DAMAGE_SOURCE);
+        var damageSource = context.getParameter(LootContextParams.DAMAGE_SOURCE);
         if (damageSource == null) {
-            System.out.println("No damage source");
             return false;
         }
 
-        var attacker = damageSource.getAttacker();
-        if (!(attacker instanceof ServerPlayerEntity player)) {
-            System.out.println("Not killed by player");
+        if (!(damageSource.getEntity() instanceof Player player)) {
             return false;
         }
 
-        ItemStack weapon = player.getMainHandStack();
-        System.out.println("Weapon: " + weapon);
-
+        ItemStack weapon = player.getMainHandItem();
         if (weapon.isEmpty()) {
-            System.out.println("Weapon empty");
             return false;
         }
 
-        var enchants = weapon.get(DataComponentTypes.ENCHANTMENTS);
-        if (enchants == null) {
-            System.out.println("No enchantments component");
+        ItemEnchantments enchantments = weapon.get(DataComponents.ENCHANTMENTS);
+        if (enchantments == null) {
             return false;
         }
 
-        var registry = player.getEntityWorld()
-                .getRegistryManager()
-                .getOrThrow(RegistryKeys.ENCHANTMENT);
+        Holder<?> soulReaper = player.registryAccess()
+                .lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
+                .getOrThrow(ModEnchantments.SOUL_REAPER);
 
-        var soulReaper = registry.getEntry(ModEnchantments.SOUL_REAPER.getValue());
-
-        if (soulReaper.isEmpty()) {
-            System.out.println("Soul Reaper not found in registry");
-            return false;
-        }
-
-        int level = enchants.getLevel(soulReaper.get());
-        System.out.println("Soul Reaper level: " + level);
-
-        return level > 0;
+        return enchantments.getLevel((Holder) soulReaper) > 0;
     }
 
-    public static void registerLootConditions() {
-        Registry.register(
-                Registries.LOOT_CONDITION_TYPE,
-                Identifier.of(VoidMod.MOD_ID, "soul_reaper_check"),
-                TYPE
-        );
+    @Override
+    public Set<ContextKey<?>> getReferencedContextParams() {
+        return Set.of(LootContextParams.DAMAGE_SOURCE);
     }
 }

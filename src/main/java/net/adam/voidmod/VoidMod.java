@@ -17,7 +17,6 @@ public class VoidMod implements ModInitializer {
 	public void onInitialize() {
 		ModItems.registerModItems();
 		ModItemGroups.registerItemGroups();
-		SoulReaperLootCondition.registerLootConditions();
 		ModEnchantmentEffects.registerEnchantmentEffects();
 		ModLootTableModifiers.registerLootModifiers();
 
