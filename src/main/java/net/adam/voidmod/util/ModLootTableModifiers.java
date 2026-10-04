@@ -15,11 +15,9 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetEnchantmentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 
 public class ModLootTableModifiers {
@@ -38,11 +36,11 @@ public class ModLootTableModifiers {
             if (BuiltInLootTables.END_CITY_TREASURE.equals(key)) {
 
                 LootPool.Builder poolBuilder = LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
+                        .setRolls(ContextIntProviders.exactly(1))
                         .when(LootItemRandomChanceCondition.randomChance(0.2f))
                         .add(LootItem.lootTableItem(Items.ENCHANTED_BOOK)
-                                .apply(new SetEnchantmentsFunction.Builder().withEnchantment(soulReaper, ConstantValue.exactly(1))))
-                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 1.0f)).build());
+                                .apply(new SetEnchantmentsFunction.Builder().withEnchantment(soulReaper, ContextIntProviders.exactly(1))))
+                        .apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(1)).build());
 
                 builder.pool(poolBuilder.build());
             }
@@ -50,12 +48,12 @@ public class ModLootTableModifiers {
             if (key.identifier().equals(ENDERMAN_ID)) {
 
                 LootPool.Builder poolBuilder = LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
+                        .setRolls(ContextIntProviders.exactly(1))
                         .when(LootItemKilledByPlayerCondition.killedByPlayer())
                         .when(SoulReaperLootCondition.builder().build())// custom condition
-                        .when(LootItemRandomChanceCondition.randomChance(1f)) // Drops 1% of the time
+                        .when(LootItemRandomChanceCondition.randomChance(0.01f)) // Drops 1% of the time
                         .add(LootItem.lootTableItem(ModItems.VOID_SOUL))
-                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0f)).build());
+                        .apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(1)).build());
 
                 builder.pool(poolBuilder.build());
             }

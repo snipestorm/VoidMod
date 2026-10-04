@@ -31,7 +31,7 @@ public class SoulReaperLootCondition implements LootItemCondition {
     @Override
     public boolean test(LootContext context) {
 
-        var damageSource = context.getParameter(LootContextParams.DAMAGE_SOURCE);
+        var damageSource = context.getOptional(LootContextParams.DAMAGE_SOURCE);
         if (damageSource == null) {
             return false;
         }

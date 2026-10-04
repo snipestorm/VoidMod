@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -75,7 +76,7 @@ public class VoidCompassItem extends CompassItem {
                 itemStack.consume(1, player);
                 voidCompass.set(DataComponents.LODESTONE_TRACKER, target);
                 if (!player.getInventory().add(voidCompass)) {
-                    player.drop(voidCompass, false);
+                    player.drop(voidCompass, false, Prediction.SERVER_ONLY);
                 }
             }
 
